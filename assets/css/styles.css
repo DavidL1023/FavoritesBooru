@@ -1,7 +1,43 @@
+/* Reset some default styles and set basic styles for the body and header */
 body {
-    background-color: #1A202C;
+    background-color: #474c57;
+    color: #e7ebee;
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
 }
 
+header {
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 60px;
+}
+
+/* Style for the logo */
+.logo img {
+    max-width: 250px;
+}
+
+/* Style for the navigation bar */
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+}
+
+/* Style for the "How to use" link */
+nav ul li a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+/* On hover, change link color */
+nav ul li a:hover {
+    color: #da5c62; /* Change hover color */
+}

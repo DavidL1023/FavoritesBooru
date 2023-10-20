@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 277.52 55.1">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #e7ebee;
+        font-family: FranklinGothic-Medium, 'Franklin Gothic Medium';
+        font-size: 40.14px;
+        font-weight: 500;
+      }
+
+      .cls-2 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-3 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-4 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-5 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-6 {
+        fill: url(#linear-gradient);
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="0" y1="27.55" x2="56.96" y2="27.55" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#da5c62"/>
+      <stop offset="1" stop-color="#973675"/>
+    </linearGradient>
+  </defs>
+  <polygon class="cls-6" points="47.85 53.24 29.76 44.92 12.65 55.1 14.97 35.33 0 22.2 19.53 18.3 27.39 0 37.13 17.37 56.96 19.19 43.45 33.82 47.85 53.24"/>
+  <text class="cls-1" transform="translate(21.86 38.94)"><tspan class="cls-3" x="0" y="0">F</tspan><tspan class="cls-2" x="19.27" y="0">a</tspan><tspan class="cls-5" x="40.47" y="0">v</tspan><tspan x="57.86" y="0">ori</tspan><tspan class="cls-4" x="102.21" y="0">t</tspan><tspan x="114.58" y="0">esBooru</tspan></text>
+</svg>

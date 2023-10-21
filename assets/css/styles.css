@@ -1,7 +1,11 @@
 /* Reset some default styles and set basic styles for the body and header */
+:root {
+    --text-color: #ebebeb;
+}
+
 body {
-    background-color: #474c57;
-    color: #e7ebee;
+    background-color: #1d222b;
+    color: var(--text-color);
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -33,7 +37,7 @@ nav ul li {
 
 /* Style for the "How to use" link */
 nav ul li a {
-    color: #fff;
+    color: var(--text-color);
     text-decoration: underline;
 }
 

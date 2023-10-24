@@ -1,4 +1,7 @@
 make sure to handle errors properly
 
-https://blog.logrocket.com/the-ultimate-guide-to-enabling-cross-origin-resource-sharing-cors/
-fix cors issue from gelbooru
+# Dependencies 
+Pybooru -> https://github.com/LuqueDaniel/pybooru
+Pygelbooru -> https://github.com/rainyroads/pygelbooru
+Pixivpy3 -> https://github.com/upbit/pixivpy
+

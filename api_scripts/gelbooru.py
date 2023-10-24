@@ -3,7 +3,7 @@ from pygelbooru import Gelbooru
 
 USER_ID = ''
 
-async def search_gelbooru():
+async def fetch_favorites():
     gelbooru = Gelbooru()
 
     page = 0 #starts at 0
@@ -19,9 +19,10 @@ async def search_gelbooru():
     print(total)
 
 async def main():
-    await search_gelbooru()
+    await fetch_favorites()
 
 if __name__ == "__main__":
-    loop = asyncio.new_event_loop()  # Create a new event loop
-    asyncio.set_event_loop(loop)  # Set it as the current event loop
-    loop.run_until_complete(main())  # Run the main coroutine
+    try:
+        asyncio.run(main())
+    except Exception as e:
+        print(f"An error occurred within gelbooru.py: {e}")

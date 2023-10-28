@@ -1,29 +1,31 @@
 from pixivpy3 import *
 import asyncio
 
+# I sadly cannot find a public API for pixiv, I think the only possible methods are scrapers, so if its slowing
+# down your website, there is not much I can do to optimize it
+
 REFRESH_TOKEN = ''
 USER_ID = ''
 
-async def fetch_bookmarks(api, user_id, max_bookmark_id=None):
-    total_count = 0
-    next_qs = {'user_id': user_id, 'max_bookmark_id': max_bookmark_id}
+api = AppPixivAPI()
+api.auth(refresh_token=REFRESH_TOKEN)
+
+async def get_bookmarks():
+    total = 0
+    results_len = -1
+    next_qs = {'user_id': USER_ID, 'max_bookmark_id': None}
 
     while next_qs:
         json_result = api.user_bookmarks_illust(**next_qs)
-        total_count += len(json_result.illusts)
+        results_len = len(json_result.illusts)
+        total += results_len
         next_qs = api.parse_qs(json_result.next_url)
 
-    return total_count
+    return total
 
 async def main():
-    api = AppPixivAPI()
-    api.auth(refresh_token=REFRESH_TOKEN)
-
-    total_count = await fetch_bookmarks(api, USER_ID)
-    print(total_count)
+    total = await get_bookmarks()
+    print("Pixiv: " + str(total) + " results")
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except Exception as e:
-        print(f"An error occurred within pixiv.py: {e}")
+    asyncio.run(main())

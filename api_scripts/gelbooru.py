@@ -1,28 +1,42 @@
 import asyncio
-from pygelbooru import Gelbooru
+import aiohttp
+import requests
+import math 
 
 USER_ID = ''
+API_GET_LIMIT = 100
+API_STARTING_PAGE = 0
+BASE_URL = 'https://gelbooru.com'
 
-async def fetch_favorites():
-    gelbooru = Gelbooru()
+def user_fav_count():
+    url = f'{BASE_URL}/index.php?page=dapi&s=post&q=index&tags=fav%3a{USER_ID}&json=1'
+    response = requests.get(url)
+    user_data = response.json()
+    att = user_data.get('@attributes')
+    return att.get('count')
 
-    page = 0 #starts at 0
-    results_len = -1
-    total = 0
-    while results_len != 0:
-        results = await gelbooru.search_posts(tags=['fav:' + USER_ID], page=page)
-        results_len = (len(results))
-        total += results_len
-        page += 1
-    
-    # Do something with the results
-    print(total)
+total_pages = math.ceil(user_fav_count() / API_GET_LIMIT)
+
+async def get_favorites(session, url):
+    async with session.get(url) as resp:
+        data = await resp.json()
+        post_data = data.get('post')
+        return len(post_data)
 
 async def main():
-    await fetch_favorites()
+    async with aiohttp.ClientSession() as session:
+
+        tasks = []
+        for page in range(API_STARTING_PAGE, total_pages + API_STARTING_PAGE):
+            url = f'{BASE_URL}/index.php?page=dapi&s=post&q=index&limit={API_GET_LIMIT}&pid={page}&tags=fav%3a{USER_ID}&json=1'
+            tasks.append(asyncio.ensure_future(get_favorites(session, url)))
+
+        len_list = await asyncio.gather(*tasks)
+        total = 0
+        for len in len_list:
+            total += len
+
+        print("Gelbooru: " + str(total) + " results")
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(main())
-    except Exception as e:
-        print(f"An error occurred within gelbooru.py: {e}")
+    asyncio.run(main())

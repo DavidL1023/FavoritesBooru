@@ -10,21 +10,34 @@ if platform.system() == 'Windows':
 import danbooru, aibooru, gelbooru, pixiv
 
 def fetch_favorites_danbooru():
+    start_time = time.time()
     asyncio.run(danbooru.main())
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Danbooru Execution Time: {execution_time} seconds")
 
 def fetch_favorites_aibooru():
+    start_time = time.time()
     asyncio.run(aibooru.main())
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Aibooru Execution Time: {execution_time} seconds")
 
 def fetch_favorites_gelbooru():
+    start_time = time.time()
     asyncio.run(gelbooru.main())
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Gelbooru Execution Time: {execution_time} seconds")
 
 def fetch_favorites_pixiv():
+    start_time = time.time()
     asyncio.run(pixiv.main())
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print(f"Pixiv Execution Time: {execution_time} seconds")
 
 def main():
-    start_time = time.time()  # Record the start time
-
-    # Create separate threads for each asynchronous function
     threads = [
         threading.Thread(target=fetch_favorites_danbooru),
         threading.Thread(target=fetch_favorites_aibooru),
@@ -32,17 +45,11 @@ def main():
         threading.Thread(target=fetch_favorites_pixiv)
     ]
 
-    # Start all the threads
     for thread in threads:
         thread.start()
 
-    # Wait for all threads to complete
     for thread in threads:
         thread.join()
-
-    end_time = time.time()  # Record the end time
-    execution_time = end_time - start_time  # Calculate execution time
-    print(f"Execution time: {execution_time} seconds")
 
 if __name__ == '__main__':
     try:

@@ -1,10 +1,6 @@
 import threading
 import asyncio
-import platform
 import time
-
-if platform.system() == 'Windows':
-    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 # Import async functions and modules here
 import danbooru, aibooru, gelbooru, pixiv
@@ -30,7 +26,7 @@ def fetch_favorites_gelbooru():
     execution_time = end_time - start_time
     print(f"Gelbooru Execution Time: {execution_time} seconds")
 
-def fetch_favorites_pixiv():
+def fetch_bookmarks_pixiv():
     start_time = time.time()
     asyncio.run(pixiv.main())
     end_time = time.time()
@@ -42,7 +38,7 @@ def main():
         threading.Thread(target=fetch_favorites_danbooru),
         threading.Thread(target=fetch_favorites_aibooru),
         threading.Thread(target=fetch_favorites_gelbooru),
-        threading.Thread(target=fetch_favorites_pixiv)
+        threading.Thread(target=fetch_bookmarks_pixiv)
     ]
 
     for thread in threads:

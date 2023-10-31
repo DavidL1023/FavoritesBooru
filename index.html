@@ -20,9 +20,35 @@
         </nav>
     </header>
 
-    <div id="content">
-        <!-- Page content goes here -->
+    <!-- Checkboxes -->
+    <div id="image-source-switches">
+        <label>
+            <input type="checkbox" id="danbooru-switch" value="danbooru" checked>
+            Danbooru
+        </label>
+        <label>
+            <input type="checkbox" id="gelbooru-switch" value="gelbooru" checked>
+            Gelbooru
+        </label>
+        <label>
+            <input type="checkbox" id="aibooru-switch" value="aibooru" checked>
+            AIBooru
+        </label>
+        <label>
+            <input type="checkbox" id="pixiv-switch" value="pixiv" checked>
+            Pixiv
+        </label>
     </div>
+    
+    <!-- Add the search bar -->
+    <div id="search-bar">
+        <input type="text" id="search-input" placeholder="Search...">
+        <button id="search-button">Search</button>
+    </div>
+    
+    <!-- Json added images -->
+    <div id="image-gallery"></div>
+
 
     <script src="assets/js/script.js"></script>
 </body>

@@ -1,58 +1,220 @@
+// Function to debounce a function
+const debounce = (mainFunction, delay) => {
+    // Declare a variable called 'timer' to store the timer ID
+    let timer;
+  
+    // Return an anonymous function that takes in any number of arguments
+    return function (...args) {
+      // Clear the previous timer to prevent the execution of 'mainFunction'
+      clearTimeout(timer);
+  
+      // Set a new timer that will execute 'mainFunction' after the specified delay
+      timer = setTimeout(() => {
+        mainFunction(...args);
+      }, delay);
+    };
+  };
+
 // Function to create the image gallery
+const allTagsSet = new Set();
+
 function createImageGallery(data) {
+    // Images
     const gallery = document.getElementById('image-gallery');
 
-    data.forEach(item => {
+    data.images.forEach(item => {
+        const imageElement = document.createElement('img');
+        const linkElement = document.createElement('a');
+
         if (item.img_preview) {
-            const imageElement = document.createElement('img');
             imageElement.src = item.img_preview;
-            const linkElement = document.createElement('a');
-            linkElement.href = item.site_redirect;
-
-            // Check if is_animated is true in the JSON data
-            if (item.is_animated) {
-                // If it's true, add an orange border to the image
-                imageElement.classList.add('animated-image');
-            }
-
-            linkElement.appendChild(imageElement);
-            gallery.appendChild(linkElement);
         } else {
-            // Create and display a default image with a link when img_preview is None
-            const defaultImageElement = document.createElement('img');
-            defaultImageElement.src = 'assets/images/Unavailable.jpg';
-            const defaultLinkElement = document.createElement('a');
-            defaultLinkElement.href = item.site_redirect;
-            defaultLinkElement.appendChild(defaultImageElement);
-            gallery.appendChild(defaultLinkElement);
+            imageElement.src = 'assets/images/Unavailable.jpg';
         }
+
+        linkElement.href = item.site_redirect;
+        linkElement.appendChild(imageElement);
+
+        // Add a class for animated images
+        if (item.is_animated) {
+            imageElement.classList.add('animated-image');
+        }
+
+        // Store the image tags as data attributes
+        imageElement.setAttribute('data-tags', item.tags.join(' ')); // Assuming tags is an array
+
+        // Add a class based on the image tags
+        item.tags.forEach(tag => {
+            linkElement.classList.add(`tag-${tag}`);
+        });
+
+        gallery.appendChild(linkElement);
+    });
+
+    // Tags for search bar
+    data.tag_set.forEach(item => {
+        allTagsSet.add(item);
     });
 }
 
-// Load the JSON files in order (to minimize user confusion when images change on reload)
-fetch('api_json_output/danbooru_images.json')
-    .then(response => response.json())
-    .then(imageData => {
-        createImageGallery(imageData);
-        // After the first JSON file is loaded and processed, load the second JSON file
-        return fetch('api_json_output/gelbooru_images.json');
+
+
+// Function to update the image gallery based on checkbox state
+function updateImageGallery() {
+    const checkboxes = document.querySelectorAll('#image-source-switches input[type="checkbox"]');
+    const checkedSources = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
+
+    // Reset gallery
+    clearImageGallery();
+
+    // Fetch and create image galleries for selected sources
+    fetchImageGalleries(checkedSources);
+    
+}
+
+// Debounced version of function
+const debouncedUpdateImageGallery = debounce(updateImageGallery, 500)
+
+// Function to clear the image gallery
+function clearImageGallery() {
+    const gallery = document.getElementById('image-gallery');
+    gallery.innerHTML = ''; // Clear the gallery content
+    allTagsSet.clear() // Clear existing tag set
+    autofillList.innerHTML = "";
+    searchInput.value = ''
+}
+
+// Function to fetch and create image galleries for selected sources
+function fetchImageGalleries(selectedSources) {
+    // Define the JSON files for each source
+    const jsonFiles = {
+        danbooru: 'api_json_output/danbooru_images.json',
+        gelbooru: 'api_json_output/gelbooru_images.json',
+        aibooru: 'api_json_output/aibooru_images.json',
+        pixiv: 'api_json_output/pixiv_images.json'
+    };
+
+    // Fetch and create image galleries for selected sources
+    selectedSources.forEach(source => {
+        fetch(jsonFiles[source])
+            .then(response => response.json())
+            .then(imageData => {
+                createImageGallery(imageData);
+            })
+            .catch(error => {
+                console.error(`Error fetching JSON for ${source}:`, error);
+            });
+    });
+}
+
+
+// Add event listeners to checkboxes to update the image gallery
+const checkboxes = document.querySelectorAll('#image-source-switches input[type="checkbox"]');
+checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', debouncedUpdateImageGallery);
+});
+
+// Listener for refresh button to call python script
+const retrieveButton = document.getElementById('retrieve-button');
+retrieveButton.addEventListener('click', () => {
+    fetch('/runPython')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text(); // or response.json() if the response is JSON
     })
-    .then(response => response.json())
-    .then(imageData => {
-        createImageGallery(imageData);
-        // After the second JSON file is loaded and processed, load the third JSON file
-        return fetch('api_json_output/aibooru_images.json');
-    })
-    .then(response => response.json())
-    .then(imageData => {
-        createImageGallery(imageData);
-        // After the third JSON file is loaded and processed, load the fourth JSON file
-        return fetch('api_json_output/pixiv_images.json');
-    })
-    .then(response => response.json())
-    .then(imageData => {
-        createImageGallery(imageData);
+    .then(data => {
+        console.log('Response data:', data);
     })
     .catch(error => {
-        console.error('Error fetching JSON:', error);
+        console.error('Error:', error);
     });
+});
+
+
+// Function to update the autofill list
+const searchInput = document.getElementById("search-input");
+const autofillList = document.getElementById("autofill-list");
+const maxSuggestions = 40; // Maximum number of suggestions to display
+
+function updateAutofillList() {
+    const inputValue = searchInput.value.trim().toLowerCase(); // Remove leading/trailing spaces
+    autofillList.innerHTML = ''; // Clear the previous suggestions
+
+    let suggestionCount = 0; // Counter for displayed suggestions
+
+    const lastWord = inputValue.split(' ').pop(); // Get the last word after splitting by spaces
+
+    for (const suggestion of allTagsSet) {
+        if (suggestionCount >= maxSuggestions) {
+            break; // Stop adding suggestions once the limit is reached
+        }
+
+        if (suggestion.toLowerCase().startsWith(lastWord)) {
+            const listItem = document.createElement('li');
+            listItem.textContent = suggestion;
+            listItem.addEventListener('click', () => {
+                // Fill in the input field with the selected suggestion
+                searchInput.value = inputValue.replace(new RegExp(lastWord + '$'), suggestion);
+                // Clear the autofill list
+                autofillList.innerHTML = '';
+            });
+            autofillList.appendChild(listItem);
+            suggestionCount++; // Increment the counter
+        }
+    }
+}
+
+
+// Listen for input events on the search input
+searchInput.addEventListener("input", updateAutofillList);
+
+// Listen for "keydown" event on the search input
+searchInput.addEventListener("keydown", (event) => {
+    if (event.key === 'Enter') {
+        // Prevent the default behavior of the Enter key (e.g., form submission)
+        event.preventDefault();
+        searchTags();
+    }
+});
+
+// Function to get tags off search click
+function searchTags() {
+    const tagsInput = searchInput.value;
+    const tagsList = tagsInput.split(' ').filter(tag => tag.trim() !== '');
+
+    // Hide or show gallery images based on tags
+    const gallery = document.getElementById('image-gallery');
+    const imageLinks = gallery.querySelectorAll('a');
+
+    imageLinks.forEach(linkElement => {
+        let hideImage = false;
+        tagsList.forEach(tag => {
+            if (!linkElement.classList.contains(`tag-${tag}`)) {
+                hideImage = true;
+            }
+        });
+
+        if (hideImage) {
+            linkElement.style.display = 'none';
+        } else {
+            linkElement.style.display = 'block';
+        }
+    }
+)}
+
+// Listen for click on search button
+const searchButton = document.getElementById("search-button")
+searchButton.addEventListener("click", searchTags);
+
+// Handle clicks outside of the autofill list to clear it
+document.addEventListener("click", (event) => {
+    if (event.target !== searchInput && event.target !== autofillList) {
+        autofillList.innerHTML = "";
+    }
+});
+
+
+// Bootup gallery
+setTimeout(updateImageGallery, 1000);

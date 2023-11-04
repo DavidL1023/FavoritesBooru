@@ -66,7 +66,29 @@ nav ul li a:hover {
 /* Style for checkboxes */
 #image-source-switches {
     margin-left: 50px;
+    
+}
+
+/* Style for the "Refresh Images" button */
+#retrieve-button {
+    margin-right: 50px;
+    background-color: #4c87af;
+    color: white; 
+    padding: 12px 20px;
+    border-radius: 5px; 
+    transition: opacity 0.3s;
+}
+
+#retrieve-button:hover {
+    opacity: 0.9;
+}
+
+/* Style for the row of checkboxes and button */
+#control-row {
     margin-top: 25px;
+    display: flex; /* Use flex layout to place items in a row */
+    align-items: center; /* Vertically align items */
+    justify-content: space-between;
 }
 
 /* Style for searchbar */
@@ -91,4 +113,25 @@ nav ul li a:hover {
 
 #search-button:hover {
     opacity: 0.8; /* Reduce opacity on hover */
+}
+
+/* Style for autofill list */
+#autofill-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+    max-height: 280px;
+    overflow-y: auto;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#autofill-list li {
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#autofill-list li:hover {
+    background-color: #283144;
 }

@@ -1,0 +1,18 @@
+
+{
+    "_comment": "If you arent using one, simply leave the fields blank",
+
+    "DANBOORU_USERNAME": "",
+    "DANBOORU_USER_ID": "",
+    "DANBOORU_API_KEY": "",
+
+    "AIBOORU_USERNAME": "",
+    "AIBOORU_USER_ID": "",
+    "AIBOORU_API_KEY": "",
+
+    "GELBOORU_USER_ID": "",
+    "GELBOORU_API_KEY": "",
+
+    "PIXIV_USER_ID": "",
+    "PIXIV_REFRESH_TOKEN": ""
+}

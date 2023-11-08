@@ -1,10 +1,17 @@
+# Image Board
+FavoritesBooru is a tool to display all of your favorites and bookmarks between Danbooru, Gelbooru, AIBooru, and Pixiv in one place. I was asked to make it and I thought the experience would be good I'm not a weeb.
 
 # Dependencies 
-pixiv auth
-pixivpy3
+[pixivpy3](https://github.com/upbit/pixivpy)
+[pixivOAuth](https://gist.github.com/ZipFile/c9ebedb224406f4f11845ab700124362)
 
-run 'npm ci' within repository directory in order to download server dependencies
+# How to
+Enter your profile data into user_config.json in the root directory. API keys and user IDs can be found from the site's profile page. Note that the user ID is different than the username and should instead be a number.
 
-user_config to write constants
+Pixiv specifically requires a refresh token. Follow the guide here to get a Pixiv refresh token for your account.
 
-node server.mjs to run website on localhost
+With Node.js and Python3 installed, run npm ci from the root directory to install dependencies, and then run server.mjs to start the server on port 3000.
+
+First run of the retrieve images button will take longer than subsequent runs if using Pixiv. This is because images for that site need to be locally downloaded and cached.
+
+Important: If you're using this for the first time, run the retrieve button twice in a row to ensure you aren't missing images (check console to make sure it's all good)

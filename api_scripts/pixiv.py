@@ -31,7 +31,7 @@ async def fetch_bookmarks():
     while next_qs:
         json_result = api.user_bookmarks_illust(**next_qs)
         results = json_result.illusts
-        next_qs = api.parse_qs(json_result.next_url) # the api uses pagination, so it can't truly be async :/
+        next_qs = api.parse_qs(json_result.next_url) 
         bookmarks_lists.append(results)
 
     return bookmarks_lists

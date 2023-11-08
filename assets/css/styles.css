@@ -83,6 +83,14 @@ nav ul li a:hover {
     opacity: 0.9;
 }
 
+/* Style for the "Refresh Images" button when it's disabled */
+#retrieve-button:disabled {
+    background-color: #ccc;
+    color: #888; /* Change the text color to a lighter shade */
+    cursor: not-allowed; /* Change the cursor to 'not-allowed' to indicate it's disabled */
+    opacity: 0.6; /* Reduce opacity to make it appear less prominent */
+}
+
 /* Style for the row of checkboxes and button */
 #control-row {
     margin-top: 25px;
@@ -134,4 +142,37 @@ nav ul li a:hover {
 
 #autofill-list li:hover {
     background-color: #283144;
+}
+
+/* Tutorial.html */
+#tutorial-content {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+code {
+    background-color: #284155;
+    padding: 2px 5px;
+    font-family: 'Courier New', monospace;
+}
+
+a {
+    color: #da5c62;
+}
+
+.important {
+    font-weight: bold;
+    color: #e65b5b; /* Red color for emphasis */
 }

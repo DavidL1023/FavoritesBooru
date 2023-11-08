@@ -75,7 +75,6 @@ async def main():
                     gelbooru_tag_set.add(tag)
                 is_animated = 'animated' in tag_list
                 preview = image.get('preview_url')
-
                 gelbooru_images.append(
                     {
                         'imageboard': 'gelbooru',
@@ -100,7 +99,6 @@ async def main():
         with open(output_file_path, 'w') as json_file:
             json.dump(output_data, json_file, indent=4)
 
-        
 
 if __name__ == "__main__":
     asyncio.run(main())

@@ -86,23 +86,23 @@ function clearImageGallery() {
 
 // Function to fetch and create image galleries for selected sources
 function fetchImageGalleries(selectedSources) {
-    // Define the JSON files for each source
-    const jsonFiles = {
-        danbooru: 'api_json_output/danbooru_images.json',
-        gelbooru: 'api_json_output/gelbooru_images.json',
-        aibooru: 'api_json_output/aibooru_images.json',
-        pixiv: 'api_json_output/pixiv_images.json'
-    };
 
-    // Fetch and create image galleries for selected sources
+    // Fetch and create image galleries for selected sources using express API
     selectedSources.forEach(source => {
-        fetch(jsonFiles[source])
-            .then(response => response.json())
+        let file_name = source + '_images';
+        fetch(`/jsonData/${file_name}`)
+            .then(response => {
+                if (response.status === 200) {
+                    return response.json();
+                } else {
+                    throw new Error(`Error fetching JSON for ${source}`);
+                }
+            })
             .then(imageData => {
                 createImageGallery(imageData);
             })
             .catch(error => {
-                console.error(`Error fetching JSON for ${source}:`, error);
+                console.error(error);
             });
     });
 }
@@ -114,18 +114,21 @@ checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', debouncedUpdateImageGallery);
 });
 
-// Listener for refresh button to call python script
+// Listener for refresh button to call python script through express API
 const retrieveButton = document.getElementById('retrieve-button');
 retrieveButton.addEventListener('click', () => {
+    retrieveButton.disabled = true; // Dont allow more than one click at a time
     fetch('/runPython')
     .then(response => {
+        retrieveButton.disabled = false; // Re-enable button
         if (!response.ok) {
             throw new Error('Network response was not ok');
         }
-        return response.text(); // or response.json() if the response is JSON
+        return response.text();
     })
     .then(data => {
         console.log('Response data:', data);
+        updateImageGallery(); // Display new json data
     })
     .catch(error => {
         console.error('Error:', error);
@@ -217,4 +220,4 @@ document.addEventListener("click", (event) => {
 
 
 // Bootup gallery
-setTimeout(updateImageGallery, 1000);
+updateImageGallery();

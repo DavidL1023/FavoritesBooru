@@ -22,7 +22,8 @@ JSON_DIRECTORY = "api_json_output"
 os.makedirs(LOCAL_IMAGE_DIRECTORY, exist_ok=True)
 
 api = AppPixivAPI()
-api.auth(refresh_token=REFRESH_TOKEN)
+if(USER_ID and REFRESH_TOKEN):
+    api.auth(refresh_token=REFRESH_TOKEN)
 
 async def fetch_bookmarks():
     next_qs = {'user_id': USER_ID, 'max_bookmark_id': None}

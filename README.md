@@ -3,12 +3,13 @@ FavoritesBooru is a tool to display all of your favorites and bookmarks between 
 
 # Dependencies 
 [pixivpy3](https://github.com/upbit/pixivpy)
+
 [pixivOAuth](https://gist.github.com/ZipFile/c9ebedb224406f4f11845ab700124362)
 
 # How to
 Enter your profile data into user_config.json in the root directory. API keys and user IDs can be found from the site's profile page. Note that the user ID is different than the username and should instead be a number.
 
-Pixiv specifically requires a refresh token. Follow the guide here to get a Pixiv refresh token for your account.
+Pixiv specifically requires a refresh token. Follow the guide [here](https://gist.github.com/ZipFile/c9ebedb224406f4f11845ab700124362) to get a Pixiv refresh token for your account.
 
 With Node.js and Python3 installed, run npm ci from the root directory to install dependencies, and then run server.mjs to start the server on port 3000.
 

@@ -20,3 +20,5 @@ First run of the retrieve images button will take longer than subsequent runs if
 Important: If you're using this for the first time, run the retrieve button twice in a row to ensure you aren't missing images (check console to make sure it's all good)
 
 Side note: If you want to use the site from another device like a phone, you can run it on your computer or a raspberry pi or something, and then find the devices IP. While the server is running, type the device ip into your browser followed by the port which should be 3000. Example - 192.168.0.1:3000
+
+https://github.com/DavidL1023/FavoritesBooru/assets/80372643/fdf0db9c-314e-4bab-b3cf-18f8fca7c072

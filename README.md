@@ -4,6 +4,8 @@ FavoritesBooru is a tool to display all of your favorites and bookmarks between 
 # Dependencies 
 [pixivpy3](https://github.com/upbit/pixivpy)
 
+[aiohttp](https://github.com/upbit/pixivpy](https://pypi.org/project/aiohttp/))
+
 [pixivOAuth](https://gist.github.com/ZipFile/c9ebedb224406f4f11845ab700124362)
 
 # How to

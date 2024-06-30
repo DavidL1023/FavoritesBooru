@@ -1,5 +1,5 @@
 # Image Board
-FavoritesBooru is a tool to display all of your favorites and bookmarks between Danbooru, Gelbooru, AIBooru, and Pixiv in one place. I was asked to make it and I thought the experience would be good I'm not a weeb.
+FavoritesBooru is a tool to display all of your favorites and bookmarks between Danbooru, Gelbooru, AIBooru, and Pixiv in one place. I was asked to make it and I thought the experience would be good I'm definitely not a gooning weeb.
 
 # Dependencies 
 [pixivpy3](https://github.com/upbit/pixivpy)
